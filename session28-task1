@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+        
+        while (curr != nullptr || !st.empty()) {
+            
+            // Go to the leftmost node
+            while (curr != nullptr) {
+                st.push(curr);
+                curr = curr->left;
+            }
+            
+            // Get the smallest remaining node
+            curr = st.top();
+            st.pop();
+            
+            k--;
+            
+            // kth smallest found
+            if (k == 0) {
+                return curr->val;
+            }
+            
+            // Move to right subtree
+            curr = curr->right;
+        }
+        
+        return -1;
+    }
+};

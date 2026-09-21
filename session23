@@ -1,0 +1,48 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<int[]> nodes = new ArrayList<>(); // {col, row, val}
+        
+        dfs(root, 0, 0, nodes);
+
+        // Sort: col → row → val
+        Collections.sort(nodes, (a, b) -> {
+            if (a[0] != b[0]) return a[0] - b[0];       // col
+            else if (a[1] != b[1]) return a[1] - b[1];  // row
+            else return a[2] - b[2];                    // val
+        });
+
+        // Group by column
+        int prevCol = Integer.MIN_VALUE;
+        List<Integer> colList = new ArrayList<>();
+        for (int[] node : nodes) {
+            int col = node[0], val = node[2];
+            if (col != prevCol) {
+                if (!colList.isEmpty()) result.add(colList);
+                colList = new ArrayList<>();
+                prevCol = col;
+            }
+            colList.add(val);
+        }
+        if (!colList.isEmpty()) result.add(colList);
+
+        return result;
+    }
+
+    private void dfs(TreeNode node, int row, int col, List<int[]> nodes) {
+        if (node == null) return;
+        nodes.add(new int[]{col, row, node.val});
+        dfs(node.left, row + 1, col - 1, nodes);
+        dfs(node.right, row + 1, col + 1, nodes);
+    }
+}
+
+// Definition for a binary tree node.
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
+}

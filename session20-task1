@@ -1,0 +1,27 @@
+import java.util.*;
+
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        // ప్రతి task frequency లెక్కించు
+        int[] freq = new int[26];
+        for (char task : tasks) {
+            freq[task - 'A']++;
+        }
+
+        // max frequency కనుక్కో
+        int fMax = 0;
+        for (int f : freq) {
+            fMax = Math.max(fMax, f);
+        }
+
+        // max frequency ఉన్న tasks count
+        int fCount = 0;
+        for (int f : freq) {
+            if (f == fMax) fCount++;
+        }
+
+        // formula apply చెయ్యి
+        int partCount = (fMax - 1) * (n + 1) + fCount;
+        return Math.max(tasks.length, partCount);
+    }
+}

@@ -1,0 +1,22 @@
+import java.util.*;
+
+class RecentCounter {
+    private Queue<Integer> queue;
+
+    public RecentCounter() {
+        queue = new LinkedList<>();
+    }
+
+    public int ping(int t) {
+        // కొత్త request add చెయ్యి
+        queue.offer(t);
+
+        // 3000 ms window లో లేని requests remove చెయ్యి
+        while (queue.peek() < t - 3000) {
+            queue.poll();
+        }
+
+        // Queue size = recent requests count
+        return queue.size();
+    }
+}

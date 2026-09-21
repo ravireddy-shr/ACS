@@ -1,0 +1,25 @@
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        
+        while (root != nullptr) {
+            
+            // Both nodes are smaller than root
+            if (p->val < root->val && q->val < root->val) {
+                root = root->left;
+            }
+            
+            // Both nodes are greater than root
+            else if (p->val > root->val && q->val > root->val) {
+                root = root->right;
+            }
+            
+            // Current root is the LCA
+            else {
+                return root;
+            }
+        }
+        
+        return nullptr;
+    }
+};
